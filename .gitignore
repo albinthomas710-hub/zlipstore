@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# explicitly commit data files (they are the production seed)
+!data/
+!data/*.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

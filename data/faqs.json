@@ -1,0 +1,34 @@
+[
+  {
+    "id": "faq-1",
+    "question": "How long does shipping take?",
+    "answer": "We usually process orders within 1-2 business days. Delivery across India typically takes 3-7 business days depending on your location.",
+    "sortOrder": 1,
+    "createdAt": "2025-09-01T00:00:00.000Z",
+    "updatedAt": "2025-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "faq-2",
+    "question": "Do you offer Cash on Delivery (COD)?",
+    "answer": "Currently, we only accept prepaid orders. Payment instructions will be provided when you confirm your order via WhatsApp.",
+    "sortOrder": 2,
+    "createdAt": "2025-09-01T00:00:00.000Z",
+    "updatedAt": "2025-09-01T00:00:00.000Z"
+  },
+  {
+    "id": "faq-3",
+    "question": "What is the quality of the jerseys?",
+    "answer": "We offer premium quality imported master copy jerseys. They feature exact detailing, quality fabrics, and correct embroidery as per the original designs.",
+    "sortOrder": 3,
+    "createdAt": "2025-09-01T00:00:00.000Z",
+    "updatedAt": "2025-09-01T00:00:00.000Z"
+  },
+  {
+    "question": "Do you ship internationally?",
+    "answer": "Currently we only deliver within India.",
+    "sortOrder": 4,
+    "id": "55238082-18ad-41cf-9aad-1283f66f8080",
+    "createdAt": "2026-09-06T15:33:18.931Z",
+    "updatedAt": "2026-09-06T15:33:18.932Z"
+  }
+]

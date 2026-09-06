@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Retro Classic Jersey",
+    "description": "",
+    "category": "latest-drops",
+    "priceMode": "display",
+    "price": 999,
+    "originalPrice": null,
+    "inStock": true,
+    "stockCount": null,
+    "images": [
+      "/uploads/1788706601841-SOLD__Type_-_Collar__Rate_-_320___Delivery____Player_-_Owen__Cloth_-_Dortnett__Size_-_S_M_L___A.webp"
+    ],
+    "sizes": [
+      {
+        "label": "S",
+        "available": true
+      },
+      {
+        "label": "M",
+        "available": true
+      },
+      {
+        "label": "L",
+        "available": true
+      },
+      {
+        "label": "XL",
+        "available": true
+      },
+      {
+        "label": "XXL",
+        "available": true
+      }
+    ],
+    "tags": [],
+    "id": "6ac9cfdb-36e6-4d2a-8b6e-597d9fc3bc47",
+    "slug": "retro-classic-jersey",
+    "createdAt": "2026-09-06T14:56:42.507Z",
+    "updatedAt": "2026-09-06T14:56:42.507Z"
+  }
+]
