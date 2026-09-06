@@ -40,7 +40,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
     text += `\n\nPlease confirm availability and total. Thank you!`;
 
     const encodedText = encodeURIComponent(text);
-    window.open(`https://wa.me/919633870945?text=${encodedText}`, "_blank");
+    window.open(`https://wa.me/919446426981?text=${encodedText}`, "_blank");
   };
 
   return (
@@ -258,7 +258,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
                 <button
                   onClick={() => {
                     const text = `Hi Zlip Store! 👋 I'm interested in *${product.name}* and would like to know when it's back in stock.`;
-                    window.open(`https://wa.me/919633870945?text=${encodeURIComponent(text)}`, "_blank");
+                    window.open(`https://wa.me/919446426981?text=${encodeURIComponent(text)}`, "_blank");
                   }}
                   className="w-full h-14 bg-zinc-900 border border-zinc-800 text-white font-bold text-lg rounded-xl flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors"
                 >

@@ -106,13 +106,13 @@ const organizationSchema = {
   },
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: "+91-9633870945",
+    telephone: "+91-9446426981",
     contactType: "customer service",
     availableLanguage: ["English", "Malayalam"],
   },
   sameAs: [
     "https://instagram.com/zlip_.store.__",
-    "https://wa.me/919633870945",
+    "https://wa.me/919446426981",
   ],
 };
 

@@ -22,7 +22,7 @@ const localBusinessSchema = {
   "@type": "ClothingStore",
   name: "Zlip Store",
   url: "https://zlipstore.in",
-  telephone: "+91-9633870945",
+  telephone: "+91-9446426981",
   description:
     "Premium jerseys, streetwear, and accessories at affordable prices. All India delivery from Nilambur, Kerala.",
   address: {
@@ -46,7 +46,7 @@ const localBusinessSchema = {
   priceRange: "₹200 - ₹2000",
   sameAs: [
     "https://instagram.com/zlip_.store.__",
-    "https://wa.me/919633870945",
+    "https://wa.me/919446426981",
   ],
 };
 
@@ -293,7 +293,7 @@ export default async function Home() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
             <a 
-              href="https://wa.me/919633870945" 
+              href="https://wa.me/919446426981" 
               target="_blank" 
               rel="noreferrer"
               className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-[#25D366] px-8 text-sm font-bold text-white shadow transition-colors hover:bg-[#20bd5a]"

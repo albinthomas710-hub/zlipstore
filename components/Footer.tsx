@@ -19,7 +19,7 @@ export function Footer() {
               <InstagramLogo size={24} weight="light" />
               <span className="sr-only">Instagram</span>
             </a>
-            <a href="https://wa.me/919633870945" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="https://wa.me/919446426981" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
               <WhatsappLogo size={24} weight="light" />
               <span className="sr-only">WhatsApp</span>
             </a>
@@ -51,7 +51,7 @@ export function Footer() {
           <address className="text-muted-foreground not-italic leading-relaxed">
             Nilambur, Kerala<br/>
             India<br/><br/>
-            Contact: <a href="tel:+919633870945" className="hover:text-primary transition-colors">+91 96338 70945</a>
+            Contact: <a href="tel:+919446426981" className="hover:text-primary transition-colors">+91 94464 26981</a>
           </address>
         </div>
 

@@ -61,7 +61,7 @@ export default function TermsPage() {
               Payment instructions are shared privately via WhatsApp. We currently do not process payments through 
               this website. Please do not transfer money to any account that has not been verified directly with 
               our official WhatsApp number:{" "}
-              <a href="tel:+919633870945" className="text-primary hover:underline">+91 96338 70945</a>.
+              <a href="tel:+919446426981" className="text-primary hover:underline">+91 94464 26981</a>.
             </p>
           </section>
 
@@ -115,8 +115,8 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-foreground mb-3">11. Contact</h2>
             <p>
               For any questions about these Terms, contact us on WhatsApp:{" "}
-              <a href="https://wa.me/919633870945" target="_blank" rel="noreferrer" className="text-primary hover:underline">
-                +91 96338 70945
+              <a href="https://wa.me/919446426981" target="_blank" rel="noreferrer" className="text-primary hover:underline">
+                +91 94464 26981
               </a>
             </p>
           </section>

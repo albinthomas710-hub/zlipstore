@@ -14,7 +14,7 @@ export default function ContactPage() {
     e.preventDefault();
     const text = `Hi Zlip Store! 👋\n\n*Name:* ${formData.fullName}\n*Contact No:* ${formData.contactNo}\n\n*Message:*\n${formData.message}`;
     const encodedText = encodeURIComponent(text);
-    window.open(`https://wa.me/919633870945?text=${encodedText}`, "_blank");
+    window.open(`https://wa.me/919446426981?text=${encodedText}`, "_blank");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -143,7 +143,7 @@ export default function ContactPage() {
                   <p className="text-muted-foreground">India</p>
                   <p className="text-muted-foreground pt-4 flex flex-col">
                     <span className="text-xs uppercase tracking-wider mb-1">Direct Contact</span>
-                    <a href="tel:+919633870945" className="text-primary font-medium hover:underline">+91 96338 70945</a>
+                    <a href="tel:+919446426981" className="text-primary font-medium hover:underline">+91 94464 26981</a>
                   </p>
                 </address>
               </div>

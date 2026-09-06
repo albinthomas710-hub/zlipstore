@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
             <p>
               You have the right to request access to, correction of, or deletion of any personal information 
               we hold about you. To exercise these rights, please contact us via WhatsApp at{" "}
-              <a href="tel:+919633870945" className="text-primary hover:underline">+91 96338 70945</a>.
+              <a href="tel:+919446426981" className="text-primary hover:underline">+91 94464 26981</a>.
             </p>
           </section>
 
@@ -88,8 +88,8 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-lg font-semibold text-foreground mb-3">8. Contact</h2>
             <p>
               For any privacy-related questions, reach out to us on WhatsApp:{" "}
-              <a href="https://wa.me/919633870945" target="_blank" rel="noreferrer" className="text-primary hover:underline">
-                +91 96338 70945
+              <a href="https://wa.me/919446426981" target="_blank" rel="noreferrer" className="text-primary hover:underline">
+                +91 94464 26981
               </a>
             </p>
           </section>

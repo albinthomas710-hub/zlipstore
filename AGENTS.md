@@ -20,7 +20,7 @@
 - **Products:** Jerseys (primary), Clothing, Footwear, Gadgets, Accessories
 - **Model:** Reselling — inventory fluctuates, items can restock or go out of stock
 - **Sales Channel:** WhatsApp DM / Instagram DM (no payment gateway)
-- **Phone:** 9633870945
+- **Phone:** 9446426981
 - **Audience:** Mobile-first, low-to-mid-range Android devices, India
 - **Tagline:** Premium Products | Affordable Price
 
