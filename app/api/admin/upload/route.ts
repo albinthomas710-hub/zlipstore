@@ -3,6 +3,7 @@ import { verifySession } from "@/lib/auth";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { existsSync } from "fs";
+import { put } from "@vercel/blob";
 
 // 5MB max file size
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -45,8 +46,15 @@ export async function POST(request: Request) {
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
     const filename = `${Date.now()}-${sanitizedName}`;
 
-    if (IS_VERCEL) {
-      // On Vercel: write to /tmp (writable) and serve via /api/uploads/[filename]
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      // Use Vercel Blob for persistent storage in production
+      const blob = await put(filename, buffer, {
+        access: 'public',
+        contentType: file.type,
+      });
+      return NextResponse.json({ url: blob.url });
+    } else if (IS_VERCEL) {
+      // On Vercel without Blob (Ephemeral fallback)
       const tmpDir = "/tmp/uploads";
       if (!existsSync(tmpDir)) {
         await mkdir(tmpDir, { recursive: true });
