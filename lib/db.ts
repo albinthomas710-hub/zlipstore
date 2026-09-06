@@ -1,4 +1,4 @@
-import { kv } from "@vercel/kv";
+import Redis from "ioredis";
 import fs from "fs";
 import path from "path";
 
@@ -37,6 +37,9 @@ export interface FAQ {
 
 const IS_VERCEL = process.env.VERCEL === "1";
 
+// Initialize Redis client if URL is present
+const redis = process.env.KV_REDIS_URL ? new Redis(process.env.KV_REDIS_URL) : null;
+
 // Helper to get initial local data if KV is empty
 function getLocalProducts(): Product[] {
   try {
@@ -67,19 +70,21 @@ let localProductsCache: Product[] | null = null;
 let localFaqsCache: FAQ[] | null = null;
 
 async function readProducts(): Promise<Product[]> {
-  if (process.env.KV_REST_API_URL) {
+  if (redis) {
     try {
-      const data = await kv.get<Product[]>("products");
-      if (data) return data;
+      const dataString = await redis.get("products");
+      if (dataString) {
+        return JSON.parse(dataString);
+      }
       
       // If KV is empty, seed it with local data
       const localData = getLocalProducts();
       if (localData.length > 0) {
-        await kv.set("products", localData);
+        await redis.set("products", JSON.stringify(localData));
       }
       return localData;
     } catch (e) {
-      console.error("KV read error (products)", e);
+      console.error("Redis read error (products)", e);
       return [];
     }
   } else {
@@ -91,8 +96,8 @@ async function readProducts(): Promise<Product[]> {
 }
 
 async function writeProducts(data: Product[]): Promise<void> {
-  if (process.env.KV_REST_API_URL) {
-    await kv.set("products", data);
+  if (redis) {
+    await redis.set("products", JSON.stringify(data));
   } else {
     localProductsCache = data;
     // Attempt to write to local file if not on Vercel
@@ -107,18 +112,20 @@ async function writeProducts(data: Product[]): Promise<void> {
 }
 
 async function readFAQs(): Promise<FAQ[]> {
-  if (process.env.KV_REST_API_URL) {
+  if (redis) {
     try {
-      const data = await kv.get<FAQ[]>("faqs");
-      if (data) return data;
+      const dataString = await redis.get("faqs");
+      if (dataString) {
+        return JSON.parse(dataString);
+      }
       
       const localData = getLocalFAQs();
       if (localData.length > 0) {
-        await kv.set("faqs", localData);
+        await redis.set("faqs", JSON.stringify(localData));
       }
       return localData;
     } catch (e) {
-      console.error("KV read error (faqs)", e);
+      console.error("Redis read error (faqs)", e);
       return [];
     }
   } else {
@@ -130,8 +137,8 @@ async function readFAQs(): Promise<FAQ[]> {
 }
 
 async function writeFAQs(data: FAQ[]): Promise<void> {
-  if (process.env.KV_REST_API_URL) {
-    await kv.set("faqs", data);
+  if (redis) {
+    await redis.set("faqs", JSON.stringify(data));
   } else {
     localFaqsCache = data;
     if (!IS_VERCEL) {
