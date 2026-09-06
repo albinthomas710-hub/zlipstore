@@ -88,12 +88,6 @@ export default async function Home() {
             >
               Shop Collection
             </Link>
-            <Link 
-              href="/products?category=jersey" 
-              className="inline-flex h-12 items-center justify-center rounded-md border border-white/20 bg-black/40 backdrop-blur-md px-8 text-sm font-medium text-white shadow-sm transition-colors hover:bg-white/10"
-            >
-              Latest Jerseys
-            </Link>
           </div>
         </div>
       </section>
