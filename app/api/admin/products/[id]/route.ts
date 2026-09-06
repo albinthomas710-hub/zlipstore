@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { verifySession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export async function PUT(
   request: Request,
@@ -14,11 +15,16 @@ export async function PUT(
   try {
     const { id } = await params;
     const productData = await request.json();
-    const updatedProduct = db.updateProduct(id, productData);
+    const updatedProduct = await db.updateProduct(id, productData);
     
     if (!updatedProduct) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
+    
+    revalidatePath("/");
+    revalidatePath("/products");
+    revalidatePath("/category/[slug]", "page");
+    revalidatePath("/product/[slug]", "page");
     
     return NextResponse.json(updatedProduct);
   } catch (error) {
@@ -38,7 +44,11 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    db.deleteProduct(id);
+    await db.deleteProduct(id);
+    
+    revalidatePath("/");
+    revalidatePath("/products");
+    revalidatePath("/category/[slug]", "page");
     
     return NextResponse.json({ success: true });
   } catch (error) {

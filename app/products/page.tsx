@@ -23,7 +23,7 @@ export default async function ProductsPage({
   const tag = typeof params.tag === "string" ? params.tag : undefined;
   const page = typeof params.page === "string" ? Math.max(1, parseInt(params.page) || 1) : 1;
 
-  let allProducts = tag ? db.getProductsByTag(tag) : db.getProducts();
+  let allProducts = tag ? await db.getProductsByTag(tag) : await db.getProducts();
 
   // Sort by newest first
   allProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

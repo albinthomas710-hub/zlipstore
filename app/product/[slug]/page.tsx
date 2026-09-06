@@ -7,7 +7,7 @@ const BASE_URL = "https://zlipstore.in";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const product = db.getProductBySlug(slug);
+  const product = await db.getProductBySlug(slug);
   if (!product) return { title: "Product Not Found | Zlip Store" };
 
   const title = `Buy ${product.name} — ${product.category.replace(/-/g, " ")} | Zlip Store`;
@@ -80,7 +80,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = db.getProductBySlug(slug);
+  const product = await db.getProductBySlug(slug);
 
   if (!product) {
     notFound();

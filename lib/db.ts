@@ -1,3 +1,4 @@
+import { kv } from "@vercel/kv";
 import fs from "fs";
 import path from "path";
 
@@ -34,78 +35,146 @@ export interface FAQ {
   updatedAt: string;
 }
 
-// On Vercel (production), process.cwd() points to /var/task which is READ-ONLY.
-// We use /tmp for writes (writable on Vercel) and fall back to the bundled data files for reads.
-// In development, we read/write to the local data/ folder as usual.
 const IS_VERCEL = process.env.VERCEL === "1";
 
-const dataFileRead = path.join(process.cwd(), "data", "products.json");
-const dataFileWrite = IS_VERCEL
-  ? "/tmp/products.json"
-  : path.join(process.cwd(), "data", "products.json");
-
-const faqFileRead = path.join(process.cwd(), "data", "faqs.json");
-const faqFileWrite = IS_VERCEL
-  ? "/tmp/faqs.json"
-  : path.join(process.cwd(), "data", "faqs.json");
-
-function readData(): Product[] {
-  // On Vercel: try /tmp first (in-session mutations), then fall back to bundled seed
-  const candidates = IS_VERCEL
-    ? [dataFileWrite, dataFileRead]
-    : [dataFileRead];
-
-  for (const file of candidates) {
-    if (!fs.existsSync(file)) continue;
-    try {
+// Helper to get initial local data if KV is empty
+function getLocalProducts(): Product[] {
+  try {
+    const file = path.join(process.cwd(), "data", "products.json");
+    if (fs.existsSync(file)) {
       return JSON.parse(fs.readFileSync(file, "utf-8"));
-    } catch {
-      // corrupt file, try next
     }
+  } catch (e) {
+    console.error("Failed to read local products", e);
   }
   return [];
 }
 
-function writeData(data: Product[]) {
-  fs.writeFileSync(dataFileWrite, JSON.stringify(data, null, 2), "utf-8");
-}
-
-function readFaqData(): FAQ[] {
-  const candidates = IS_VERCEL
-    ? [faqFileWrite, faqFileRead]
-    : [faqFileRead];
-
-  for (const file of candidates) {
-    if (!fs.existsSync(file)) continue;
-    try {
+function getLocalFAQs(): FAQ[] {
+  try {
+    const file = path.join(process.cwd(), "data", "faqs.json");
+    if (fs.existsSync(file)) {
       return JSON.parse(fs.readFileSync(file, "utf-8"));
-    } catch {
-      // corrupt file, try next
     }
+  } catch (e) {
+    console.error("Failed to read local faqs", e);
   }
   return [];
 }
 
-function writeFaqData(data: FAQ[]) {
-  fs.writeFileSync(faqFileWrite, JSON.stringify(data, null, 2), "utf-8");
+// Fallback logic for when KV is not configured (e.g. local dev without env vars)
+let localProductsCache: Product[] | null = null;
+let localFaqsCache: FAQ[] | null = null;
+
+async function readProducts(): Promise<Product[]> {
+  if (process.env.KV_REST_API_URL) {
+    try {
+      const data = await kv.get<Product[]>("products");
+      if (data) return data;
+      
+      // If KV is empty, seed it with local data
+      const localData = getLocalProducts();
+      if (localData.length > 0) {
+        await kv.set("products", localData);
+      }
+      return localData;
+    } catch (e) {
+      console.error("KV read error (products)", e);
+      return [];
+    }
+  } else {
+    if (!localProductsCache) {
+      localProductsCache = getLocalProducts();
+    }
+    return localProductsCache;
+  }
+}
+
+async function writeProducts(data: Product[]): Promise<void> {
+  if (process.env.KV_REST_API_URL) {
+    await kv.set("products", data);
+  } else {
+    localProductsCache = data;
+    // Attempt to write to local file if not on Vercel
+    if (!IS_VERCEL) {
+      try {
+        fs.writeFileSync(path.join(process.cwd(), "data", "products.json"), JSON.stringify(data, null, 2));
+      } catch (e) {
+        console.error("Failed to write to local file", e);
+      }
+    }
+  }
+}
+
+async function readFAQs(): Promise<FAQ[]> {
+  if (process.env.KV_REST_API_URL) {
+    try {
+      const data = await kv.get<FAQ[]>("faqs");
+      if (data) return data;
+      
+      const localData = getLocalFAQs();
+      if (localData.length > 0) {
+        await kv.set("faqs", localData);
+      }
+      return localData;
+    } catch (e) {
+      console.error("KV read error (faqs)", e);
+      return [];
+    }
+  } else {
+    if (!localFaqsCache) {
+      localFaqsCache = getLocalFAQs();
+    }
+    return localFaqsCache;
+  }
+}
+
+async function writeFAQs(data: FAQ[]): Promise<void> {
+  if (process.env.KV_REST_API_URL) {
+    await kv.set("faqs", data);
+  } else {
+    localFaqsCache = data;
+    if (!IS_VERCEL) {
+      try {
+        fs.writeFileSync(path.join(process.cwd(), "data", "faqs.json"), JSON.stringify(data, null, 2));
+      } catch (e) {
+        console.error("Failed to write to local file", e);
+      }
+    }
+  }
 }
 
 export const db = {
   // Product Methods
-  getProducts: () => readData(),
+  getProducts: async () => await readProducts(),
   
-  getProductById: (id: string) => readData().find((p) => p.id === id),
+  getProductById: async (id: string) => {
+    const products = await readProducts();
+    return products.find((p) => p.id === id);
+  },
   
-  getProductBySlug: (slug: string) => readData().find((p) => p.slug === slug),
+  getProductBySlug: async (slug: string) => {
+    const products = await readProducts();
+    return products.find((p) => p.slug === slug);
+  },
   
-  getProductsByCategory: (category: string) => readData().filter((p) => p.category === category),
+  getProductsByCategory: async (category: string) => {
+    const products = await readProducts();
+    return products.filter((p) => p.category === category);
+  },
   
-  getProductsByTag: (tag: string) => readData().filter((p) => p.tags.includes(tag)),
+  getProductsByTag: async (tag: string) => {
+    const products = await readProducts();
+    return products.filter((p) => p.tags.includes(tag));
+  },
   
-  getFeaturedProducts: () => readData().filter((p) => p.category === "latest-drops").slice(0, 8),
+  getFeaturedProducts: async () => {
+    const products = await readProducts();
+    return products.filter((p) => p.category === "latest-drops").slice(0, 8);
+  },
   
-  getCategories: () => {
-    const products = readData();
+  getCategories: async () => {
+    const products = await readProducts();
     const counts = products.reduce((acc, p) => {
       acc[p.category] = (acc[p.category] || 0) + 1;
       return acc;
@@ -118,8 +187,8 @@ export const db = {
     }));
   },
   
-  createProduct: (data: Omit<Product, "id" | "slug" | "createdAt" | "updatedAt">) => {
-    const products = readData();
+  createProduct: async (data: Omit<Product, "id" | "slug" | "createdAt" | "updatedAt">) => {
+    const products = await readProducts();
     const id = crypto.randomUUID();
     const slug = data.name
       .toLowerCase()
@@ -139,12 +208,12 @@ export const db = {
     };
     
     products.push(newProduct);
-    writeData(products);
+    await writeProducts(products);
     return newProduct;
   },
   
-  updateProduct: (id: string, data: Partial<Omit<Product, "id" | "createdAt" | "updatedAt">>) => {
-    const products = readData();
+  updateProduct: async (id: string, data: Partial<Omit<Product, "id" | "createdAt" | "updatedAt">>) => {
+    const products = await readProducts();
     const index = products.findIndex((p) => p.id === id);
     if (index === -1) throw new Error("Product not found");
     
@@ -165,24 +234,24 @@ export const db = {
       slug: finalSlug,
       updatedAt: new Date().toISOString(),
     };
-    writeData(products);
+    await writeProducts(products);
     return products[index];
   },
   
-  deleteProduct: (id: string) => {
-    const products = readData();
+  deleteProduct: async (id: string) => {
+    const products = await readProducts();
     const filtered = products.filter((p) => p.id !== id);
-    writeData(filtered);
+    await writeProducts(filtered);
   },
 
   // FAQ Methods
-  getFAQs: () => {
-    const faqs = readFaqData();
+  getFAQs: async () => {
+    const faqs = await readFAQs();
     return faqs.sort((a, b) => a.sortOrder - b.sortOrder);
   },
 
-  createFAQ: (data: Omit<FAQ, "id" | "createdAt" | "updatedAt">) => {
-    const faqs = readFaqData();
+  createFAQ: async (data: Omit<FAQ, "id" | "createdAt" | "updatedAt">) => {
+    const faqs = await readFAQs();
     const id = crypto.randomUUID();
     
     const newFaq: FAQ = {
@@ -193,12 +262,12 @@ export const db = {
     };
     
     faqs.push(newFaq);
-    writeFaqData(faqs);
+    await writeFAQs(faqs);
     return newFaq;
   },
 
-  updateFAQ: (id: string, data: Partial<Omit<FAQ, "id" | "createdAt" | "updatedAt">>) => {
-    const faqs = readFaqData();
+  updateFAQ: async (id: string, data: Partial<Omit<FAQ, "id" | "createdAt" | "updatedAt">>) => {
+    const faqs = await readFAQs();
     const index = faqs.findIndex((f) => f.id === id);
     if (index === -1) throw new Error("FAQ not found");
     
@@ -207,18 +276,18 @@ export const db = {
       ...data,
       updatedAt: new Date().toISOString(),
     };
-    writeFaqData(faqs);
+    await writeFAQs(faqs);
     return faqs[index];
   },
 
-  deleteFAQ: (id: string) => {
-    const faqs = readFaqData();
+  deleteFAQ: async (id: string) => {
+    const faqs = await readFAQs();
     const filtered = faqs.filter((f) => f.id !== id);
-    writeFaqData(filtered);
+    await writeFAQs(filtered);
   },
 
-  updateFAQSorter: (reorderedFAQs: Pick<FAQ, 'id' | 'sortOrder'>[]) => {
-     const faqs = readFaqData();
+  updateFAQSorter: async (reorderedFAQs: Pick<FAQ, 'id' | 'sortOrder'>[]) => {
+     const faqs = await readFAQs();
      const faqMap = new Map(faqs.map(f => [f.id, f]));
      
      const updated = reorderedFAQs.map(({id, sortOrder}) => {
@@ -230,10 +299,9 @@ export const db = {
        return existing;
      }).filter(Boolean) as FAQ[];
 
-     // Keep any faqs that weren't in the reorder list (though the UI should send all)
      const updatedIds = new Set(updated.map(f => f.id));
      const remaining = faqs.filter(f => !updatedIds.has(f.id));
 
-     writeFaqData([...updated, ...remaining]);
+     await writeFAQs([...updated, ...remaining]);
   }
 };

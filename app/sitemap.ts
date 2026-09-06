@@ -3,8 +3,8 @@ import { db } from "@/lib/db";
 
 const BASE_URL = "https://zlipstore.in";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const products = db.getProducts();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const products = await db.getProducts();
 
   const staticPages: MetadataRoute.Sitemap = [
     {

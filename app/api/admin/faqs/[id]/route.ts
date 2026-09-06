@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { verifySession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function PUT(
   request: Request,
@@ -14,7 +15,8 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
     
-    const updated = db.updateFAQ(id, body);
+    const updated = await db.updateFAQ(id, body);
+    revalidatePath("/faq");
     return NextResponse.json(updated);
   } catch (error: any) {
     if (error.message === "FAQ not found") {
@@ -34,7 +36,8 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    db.deleteFAQ(id);
+    await db.deleteFAQ(id);
+    revalidatePath("/faq");
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: "Failed to delete FAQ" }, { status: 500 });

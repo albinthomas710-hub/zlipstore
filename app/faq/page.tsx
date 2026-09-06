@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function FAQPage() {
-  const faqs = db.getFAQs();
+export default async function FAQPage() {
+  const faqs = await db.getFAQs();
 
   // Generate FAQPage Schema markup for SEO
   const faqSchema = {

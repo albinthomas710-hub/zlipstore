@@ -95,7 +95,7 @@ export default async function CategoryPage({
   const formattedTitle = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const meta = CATEGORY_META[slug];
 
-  const allProducts = db.getProductsByCategory(slug);
+  const allProducts = await db.getProductsByCategory(slug);
   allProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   const totalProducts = allProducts.length;

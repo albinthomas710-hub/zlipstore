@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { verifySession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   const session = await verifySession();
@@ -10,7 +11,12 @@ export async function POST(request: Request) {
 
   try {
     const productData = await request.json();
-    const newProduct = db.createProduct(productData);
+    const newProduct = await db.createProduct(productData);
+    
+    revalidatePath("/");
+    revalidatePath("/products");
+    revalidatePath("/category/[slug]", "page");
+    
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
     console.error("Create product error:", error);

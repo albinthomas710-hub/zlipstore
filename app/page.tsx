@@ -50,10 +50,17 @@ const localBusinessSchema = {
   ],
 };
 
-export default function Home() {
-  const featuredProducts = db.getFeaturedProducts();
-  const categories = db.getCategories();
+export default async function Home() {
+  const featuredProducts = await db.getFeaturedProducts();
+  const categories = await db.getCategories();
   
+  const trendingProducts = await db.getProductsByCategory("trending-now");
+  const specialProducts = await db.getProductsByCategory("special-edition");
+  const dynamicCategories = [
+    { slug: "trending-now", products: trendingProducts },
+    { slug: "special-edition", products: specialProducts }
+  ];
+
   return (
     <div className="flex flex-col min-h-screen">
       <script
@@ -214,8 +221,7 @@ export default function Home() {
       </section>
 
       {/* 5. Dynamic Category Sections (e.g. Trending, Special Edition) */}
-      {["trending-now", "special-edition"].map((catSlug) => {
-        const products = db.getProductsByCategory(catSlug);
+      {dynamicCategories.map(({ slug: catSlug, products }) => {
         if (products.length === 0) return null;
         
         const PREVIEW_LIMIT = 4;

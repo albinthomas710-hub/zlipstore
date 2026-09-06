@@ -9,8 +9,8 @@ export default async function AdminPanelPage() {
     redirect("/panel/login");
   }
 
-  const products = db.getProducts();
-  const faqs = db.getFAQs();
+  const products = await db.getProducts();
+  const faqs = await db.getFAQs();
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
