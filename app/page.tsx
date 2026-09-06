@@ -178,9 +178,9 @@ export default async function Home() {
               { name: "Latest Drops", href: "/category/latest-drops", image: "/collections/1.jpg" },
               { name: "🔥 Trending Now", href: "/category/trending-now", image: "/collections/2.jpg" },
               { name: "Special Edition", href: "/category/special-edition", image: "/collections/3.jpg" },
-              { name: "Limited Stock", href: "/category/limited-stock", image: "/collections/4.webp" },
+              { name: "Limited Stock", href: "/category/limited-stock", image: "/collections/4.jpg" },
               { name: "Club Player Edition", href: "/category/club-player-edition", image: "/collections/5.webp" },
-              { name: "All Products", href: "/products", image: "/collections/6.webp" },
+              { name: "All Products", href: "/products", image: "/collections/6.jpg" },
             ].map((category, i) => (
               <Link 
                 key={i} 
