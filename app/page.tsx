@@ -179,7 +179,7 @@ export default async function Home() {
               { name: "🔥 Trending Now", href: "/category/trending-now", image: "/collections/2.jpg" },
               { name: "Footwears", href: "/category/footwears", image: "/collections/3.jpg" },
               { name: "Gadgets", href: "/category/gadgets", image: "/collections/4.jpg" },
-              { name: "Clothes", href: "/category/clothes", image: "/collections/5.webp" },
+              { name: "Clothes", href: "/category/clothes", image: "/collections/5.jpg" },
               { name: "All Products", href: "/products", image: "/collections/6.jpg" },
             ].map((category, i) => (
               <Link 
