@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Truck, ChatCircle, Heart, Fire, CheckCircle, ShoppingCart } from "@phosphor-icons/react";
+import { Truck, ChatCircle, Heart, Fire, CheckCircle, ShoppingCart, Info, WarningCircle } from "@phosphor-icons/react";
 import Link from "next/link";
 import { Product } from "@/lib/db";
 import { useCart } from "@/lib/cart-context";
