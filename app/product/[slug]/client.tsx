@@ -310,6 +310,18 @@ export default function ProductPageClient({ product }: { product: Product }) {
                     <ChatCircle size={24} weight="fill" />
                     ORDER VIA WHATSAPP
                   </button>
+                  {product.category === "gadgets" && (
+                    <button
+                      onClick={() => {
+                        const text = `Hi Zlip Store! 👋 I have a doubt regarding *${product.name}*.`;
+                        window.open(`https://wa.me/919446426981?text=${encodeURIComponent(text)}`, "_blank");
+                      }}
+                      className="w-full h-10 mt-2 bg-transparent text-zinc-400 border border-zinc-800 text-sm font-medium rounded-lg flex items-center justify-center gap-2 hover:bg-zinc-900 hover:text-white transition-colors"
+                    >
+                      <Info size={16} />
+                      Have a doubt? Enquire via WhatsApp
+                    </button>
+                  )}
                 </div>
               )}
             </div>

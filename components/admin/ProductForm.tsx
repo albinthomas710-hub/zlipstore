@@ -202,7 +202,6 @@ export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps)
                     else if (newCategory === "footwears") setSizes(FOOTWEAR_SIZES);
                     else if (newCategory === "gadgets") {
                       setSizes(GADGET_SIZES);
-                      setPriceMode("enquire");
                     }
                   }}
                   className="w-full bg-zinc-950 border border-zinc-800 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-primary capitalize"
