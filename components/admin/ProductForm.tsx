@@ -21,7 +21,6 @@ const CATEGORIES = [
 const AVAILABLE_TAGS = [
   "new-arrival",   // → appears in Latest Drops section
   "trending",      // → appears in Trending Now section
-  "premium-quality",
 ];
 
 const DEFAULT_SIZES: Size[] = [
