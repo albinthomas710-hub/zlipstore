@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Truck, ChatCircle, Heart, Fire, CheckCircle, WarningCircle, Info } from "@phosphor-icons/react";
+import { Truck, ChatCircle, Heart, Fire, CheckCircle, ShoppingCart } from "@phosphor-icons/react";
 import Link from "next/link";
 import { Product } from "@/lib/db";
+import { useCart } from "@/lib/cart-context";
 
 export default function ProductPageClient({ product }: { product: Product }) {
   const [activeImage, setActiveImage] = useState(product.images[0] || "");
@@ -12,6 +13,8 @@ export default function ProductPageClient({ product }: { product: Product }) {
   );
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const { addItem } = useCart();
 
   const discountAmount = (product.originalPrice && product.price)
     ? product.originalPrice - product.price
@@ -41,6 +44,26 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
     const encodedText = encodeURIComponent(text);
     window.open(`https://wa.me/919446426981?text=${encodedText}`, "_blank");
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize && product.sizes.some(s => s.available)) {
+      alert("Please select a size first.");
+      return;
+    }
+    addItem({
+      productId: product.id,
+      productName: product.name,
+      slug: product.slug,
+      selectedSize,
+      selectedColor: null,
+      quantity,
+      price: product.price ?? null,
+      priceMode: product.priceMode,
+      image: product.images[0] || "",
+    });
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
   };
 
   return (
@@ -266,13 +289,28 @@ export default function ProductPageClient({ product }: { product: Product }) {
                   NOTIFY ME ON WHATSAPP
                 </button>
               ) : (
-                <button
-                  onClick={handleOrder}
-                  className="w-full h-14 bg-[#25D366] text-white font-bold text-lg rounded-xl flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-colors shadow-[0_0_20px_rgba(37,211,102,0.2)]"
-                >
-                  <ChatCircle size={24} weight="fill" />
-                  ORDER VIA WHATSAPP
-                </button>
+                <div className="flex flex-col gap-3">
+                  {/* Add to Cart */}
+                  <button
+                    onClick={handleAddToCart}
+                    className={`w-full h-14 font-bold text-lg rounded-xl flex items-center justify-center gap-2 transition-all border-2 ${
+                      addedToCart
+                        ? "bg-[#00ff88] border-[#00ff88] text-black"
+                        : "bg-zinc-900 border-zinc-700 text-white hover:border-white hover:bg-zinc-800"
+                    }`}
+                  >
+                    <ShoppingCart size={22} weight="bold" />
+                    {addedToCart ? "ADDED TO CART ✓" : "ADD TO CART"}
+                  </button>
+                  {/* Order directly via WhatsApp */}
+                  <button
+                    onClick={handleOrder}
+                    className="w-full h-14 bg-[#25D366] text-white font-bold text-lg rounded-xl flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-colors shadow-[0_0_20px_rgba(37,211,102,0.2)]"
+                  >
+                    <ChatCircle size={24} weight="fill" />
+                    ORDER VIA WHATSAPP
+                  </button>
+                </div>
               )}
             </div>
 

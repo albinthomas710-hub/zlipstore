@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { CartProvider } from "@/lib/cart-context";
+import { CartDrawer } from "@/components/CartDrawer";
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -152,9 +154,12 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Navbar />
+          <CartDrawer />
+          <main className="flex-1 flex flex-col">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

@@ -4,9 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShoppingBag, List } from "@phosphor-icons/react";
 import { useState } from "react";
+import { useCart } from "@/lib/cart-context";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { totalItems, openCart } = useCart();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/10 bg-background/60 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
@@ -22,13 +24,19 @@ export function Navbar() {
           <Link href="/faq" className="transition-colors hover:text-foreground/80 text-foreground/60">FAQ</Link>
         </nav>
         <div className="flex items-center gap-4">
-          <button aria-label="Cart" className="relative text-foreground hover:text-primary transition-colors">
+          <button
+            aria-label="Open cart"
+            onClick={openCart}
+            className="relative text-foreground hover:text-primary transition-colors"
+          >
             <ShoppingBag size={24} weight="light" />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-              0
-            </span>
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground animate-in zoom-in duration-150">
+                {totalItems > 9 ? "9+" : totalItems}
+              </span>
+            )}
           </button>
-          <button 
+          <button
             className="md:hidden text-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
@@ -38,10 +46,10 @@ export function Navbar() {
       </div>
       {isMenuOpen && (
         <div className="md:hidden border-b border-border/10 bg-background/95 backdrop-blur px-4 py-4 space-y-4 text-sm font-medium">
-          <Link href="/" className="block transition-colors hover:text-primary">Home</Link>
-          <Link href="/products" className="block transition-colors hover:text-primary">Products</Link>
-          <Link href="/contact" className="block transition-colors hover:text-primary">Contact</Link>
-          <Link href="/faq" className="block transition-colors hover:text-primary">FAQ</Link>
+          <Link href="/" className="block transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Home</Link>
+          <Link href="/products" className="block transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Products</Link>
+          <Link href="/contact" className="block transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+          <Link href="/faq" className="block transition-colors hover:text-primary" onClick={() => setIsMenuOpen(false)}>FAQ</Link>
         </div>
       )}
     </header>
