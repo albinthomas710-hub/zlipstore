@@ -206,7 +206,7 @@ export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps)
 
               <div>
                 <label className="block text-sm font-medium text-zinc-400 mb-1">
-                  Featured In (Tags)
+                  Featured In (Tags) <span className="text-zinc-500 font-normal ml-1">(Optional)</span>
                 </label>
                 <p className="text-xs text-zinc-600 mb-2">
                   ✦ <strong className="text-zinc-500">new-arrival</strong> → shows in Latest Drops &nbsp;|&nbsp;
