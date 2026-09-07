@@ -10,21 +10,18 @@ interface ProductFormProps {
   onCancel: () => void;
 }
 
+// Product TYPE — what kind of item it is (one per product)
 const CATEGORIES = [
-  "latest-drops",
-  "trending-now",
+  "clothes",
   "footwears",
   "gadgets",
-  "clothes"
 ];
 
+// TAGS — controls where the product is featured (can select multiple)
 const AVAILABLE_TAGS = [
-  "new-arrival",
-  "trending",
-  "gadgets",
-  "footwears",
+  "new-arrival",   // → appears in Latest Drops section
+  "trending",      // → appears in Trending Now section
   "premium-quality",
-  "clothes",
 ];
 
 const DEFAULT_SIZES: Size[] = [
@@ -42,7 +39,7 @@ export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps)
   // Form State
   const [name, setName] = useState(initialData?.name || "");
   const [description, setDescription] = useState(initialData?.description || "");
-  const [category, setCategory] = useState(initialData?.category || "latest-drops");
+  const [category, setCategory] = useState(initialData?.category || "clothes");
   const [priceMode, setPriceMode] = useState<"display" | "enquire">(initialData?.priceMode || "display");
   const [price, setPrice] = useState(initialData?.price?.toString() || "");
   const [originalPrice, setOriginalPrice] = useState(initialData?.originalPrice?.toString() || "");
@@ -183,7 +180,10 @@ export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps)
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-zinc-400 mb-1">Category</label>
+                <label className="block text-sm font-medium text-zinc-400 mb-1">
+                  Product Type (Category)
+                </label>
+                <p className="text-xs text-zinc-600 mb-1">What kind of item is this?</p>
                 <select 
                   value={category} 
                   onChange={e => setCategory(e.target.value)}
@@ -206,7 +206,13 @@ export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps)
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-zinc-400 mb-2">Tags</label>
+                <label className="block text-sm font-medium text-zinc-400 mb-1">
+                  Featured In (Tags)
+                </label>
+                <p className="text-xs text-zinc-600 mb-2">
+                  ✦ <strong className="text-zinc-500">new-arrival</strong> → shows in Latest Drops &nbsp;|&nbsp;
+                  ✦ <strong className="text-zinc-500">trending</strong> → shows in Trending Now
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {AVAILABLE_TAGS.map(tag => (
                     <button

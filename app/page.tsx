@@ -54,11 +54,11 @@ export default async function Home() {
   const featuredProducts = await db.getFeaturedProducts();
   const categories = await db.getCategories();
   
-  const trendingProducts = await db.getProductsByCategory("trending-now");
-  const specialProducts = await db.getProductsByCategory("footwears");
+  // "trending" and "new-arrival" are TAGS — a product can have category=clothes AND tag=trending
+  // It appears in /category/trending-now AND /category/clothes, but only once in All Products
+  const trendingProducts = await db.getProductsByTag("trending");
   const dynamicCategories = [
     { slug: "trending-now", products: trendingProducts },
-    { slug: "footwears", products: specialProducts }
   ];
 
   return (

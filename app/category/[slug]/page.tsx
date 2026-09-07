@@ -95,7 +95,18 @@ export default async function CategoryPage({
   const formattedTitle = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const meta = CATEGORY_META[slug];
 
-  const allProducts = await db.getProductsByCategory(slug);
+  // "latest-drops" and "trending-now" are tag-based sections, not product categories.
+  // They pull products tagged "new-arrival" or "trending" regardless of product type.
+  // Product type categories (clothes, gadgets, footwears) filter by category field.
+  const TAG_BASED_SECTIONS: Record<string, string> = {
+    "latest-drops": "new-arrival",
+    "trending-now": "trending",
+  };
+
+  const tagForSection = TAG_BASED_SECTIONS[slug];
+  const allProducts = tagForSection
+    ? await db.getProductsByTag(tagForSection)
+    : await db.getProductsByCategory(slug);
   allProducts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
   const totalProducts = allProducts.length;

@@ -177,7 +177,8 @@ export const db = {
   
   getFeaturedProducts: async () => {
     const products = await readProducts();
-    return products.filter((p) => p.category === "latest-drops").slice(0, 8);
+    // "Latest Drops" = products tagged with "new-arrival"
+    return products.filter((p) => p.tags.includes("new-arrival")).slice(0, 8);
   },
   
   getCategories: async () => {
