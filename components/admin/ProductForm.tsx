@@ -13,18 +13,18 @@ interface ProductFormProps {
 const CATEGORIES = [
   "latest-drops",
   "trending-now",
-  "special-edition",
-  "limited-stock",
-  "club-player-edition"
+  "footwears",
+  "gadgets",
+  "clothes"
 ];
 
 const AVAILABLE_TAGS = [
   "new-arrival",
   "trending",
-  "limited-stock",
-  "special-edition",
+  "gadgets",
+  "footwears",
   "premium-quality",
-  "club-player-edition",
+  "clothes",
 ];
 
 const DEFAULT_SIZES: Size[] = [

@@ -55,10 +55,10 @@ export default async function Home() {
   const categories = await db.getCategories();
   
   const trendingProducts = await db.getProductsByCategory("trending-now");
-  const specialProducts = await db.getProductsByCategory("special-edition");
+  const specialProducts = await db.getProductsByCategory("footwears");
   const dynamicCategories = [
     { slug: "trending-now", products: trendingProducts },
-    { slug: "special-edition", products: specialProducts }
+    { slug: "footwears", products: specialProducts }
   ];
 
   return (
@@ -177,9 +177,9 @@ export default async function Home() {
             {[
               { name: "Latest Drops", href: "/category/latest-drops", image: "/collections/1.jpg" },
               { name: "🔥 Trending Now", href: "/category/trending-now", image: "/collections/2.jpg" },
-              { name: "Special Edition", href: "/category/special-edition", image: "/collections/3.jpg" },
-              { name: "Limited Stock", href: "/category/limited-stock", image: "/collections/4.jpg" },
-              { name: "Club Player Edition", href: "/category/club-player-edition", image: "/collections/5.webp" },
+              { name: "Footwears", href: "/category/footwears", image: "/collections/3.jpg" },
+              { name: "Gadgets", href: "/category/gadgets", image: "/collections/4.jpg" },
+              { name: "Clothes", href: "/category/clothes", image: "/collections/5.webp" },
               { name: "All Products", href: "/products", image: "/collections/6.jpg" },
             ].map((category, i) => (
               <Link 
@@ -214,7 +214,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 5. Dynamic Category Sections (e.g. Trending, Special Edition) */}
+      {/* 5. Dynamic Category Sections (e.g. Trending, Footwears) */}
       {dynamicCategories.map(({ slug: catSlug, products }) => {
         if (products.length === 0) return null;
         
@@ -223,7 +223,7 @@ export default async function Home() {
         const previewProducts = products.slice(0, PREVIEW_LIMIT);
         
         const tagName = catSlug === "trending-now" ? "🔥 Trending Now" : 
-                       catSlug === "special-edition" ? "Special Edition" : catSlug;
+                       catSlug === "footwears" ? "Footwears" : catSlug;
 
         return (
           <section key={catSlug} className="w-full py-16 border-t border-border/10 bg-zinc-950">

@@ -20,19 +20,19 @@ const CATEGORY_META: Record<string, { title: string; description: string; keywor
       "Shop our most popular and trending jerseys and streetwear at Zlip Store. Top-selling football jerseys, premium quality at affordable prices. All India delivery.",
     keywords: ["trending jerseys india", "popular football jersey", "best selling jersey", "trending streetwear"],
   },
-  "special-edition": {
-    title: "Special Edition — Exclusive Pieces",
+  "footwears": {
+    title: "Footwears — Exclusive Pieces",
     description:
       "Exclusive special edition jerseys and streetwear at Zlip Store. Rare collector pieces, unique designs, premium quality. Limited availability. Order via WhatsApp.",
     keywords: ["special edition jersey", "exclusive jersey india", "collector jersey", "rare football jersey"],
   },
-  "limited-stock": {
-    title: "Limited Stock — Grab Before It's Gone",
+  "gadgets": {
+    title: "Gadgets — Grab Before It's Gone",
     description:
       "Last chance to grab limited stock jerseys and streetwear at Zlip Store. Very few pieces left. Premium quality at unbeatable prices. All India delivery.",
     keywords: ["limited stock jersey", "last chance jersey", "few pieces left jersey india", "scarce jersey"],
   },
-  "club-player-edition": {
+  "clothes": {
     title: "Club & Player Edition — Official Style",
     description:
       "Shop club and player edition jerseys at Zlip Store. Real Madrid, Barcelona, PSG, Man City and more. Mbappe, Vinicius, Bellingham jerseys available. All India delivery.",

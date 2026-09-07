@@ -37,7 +37,7 @@ Instagram/SEO → Zlip Website → Product Discovery → Product Selection → C
   "slug": "string (URL-friendly, auto-generated)",
   "description": "string",
   "category": "jersey | clothing | footwear | gadget | accessory",
-  "tags": ["new-arrival", "trending", "limited-stock", "special-edition", "premium-quality"],
+  "tags": ["new-arrival", "trending", "gadgets", "footwears", "premium-quality"],
   "player": "string | null",
   "club": "string | null",
   "images": [
@@ -104,7 +104,7 @@ Please confirm availability and total. Thank you!
 
 ## Psychology & Conversion Principles
 1. **Social Proof:** "200+ Trusted Customers", "Since 2025"
-2. **Scarcity / Urgency:** "Limited Stock" badges, low-stock indicators
+2. **Scarcity / Urgency:** "Gadgets" badges, low-stock indicators
 3. **Trust Signals:** All India Delivery, customer count, brand age
 4. **FOMO:** Trending section, "Others are viewing this" (future)
 5. **Anchoring:** Show original price crossed out next to sale price

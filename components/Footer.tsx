@@ -31,9 +31,9 @@ export function Footer() {
           <ul className="space-y-2 text-muted-foreground">
             <li><Link href="/category/latest-drops" className="hover:text-primary transition-colors">Latest Drops</Link></li>
             <li><Link href="/category/trending-now" className="hover:text-primary transition-colors">Trending Now</Link></li>
-            <li><Link href="/category/special-edition" className="hover:text-primary transition-colors">Special Edition</Link></li>
-            <li><Link href="/category/limited-stock" className="hover:text-primary transition-colors">Limited Stock</Link></li>
-            <li><Link href="/category/club-player-edition" className="hover:text-primary transition-colors">Club Player Edition</Link></li>
+            <li><Link href="/category/footwears" className="hover:text-primary transition-colors">Footwears</Link></li>
+            <li><Link href="/category/gadgets" className="hover:text-primary transition-colors">Gadgets</Link></li>
+            <li><Link href="/category/clothes" className="hover:text-primary transition-colors">Clothes</Link></li>
           </ul>
         </div>
         

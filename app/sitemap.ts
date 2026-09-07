@@ -48,9 +48,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const categories = [
     "latest-drops",
     "trending-now",
-    "special-edition",
-    "limited-stock",
-    "club-player-edition",
+    "footwears",
+    "gadgets",
+    "clothes",
   ];
 
   const categoryPages: MetadataRoute.Sitemap = categories.map((slug) => ({
