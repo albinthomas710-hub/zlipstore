@@ -79,7 +79,7 @@ export default async function Home() {
             <span className="text-primary/90">Starts Here.</span>
           </h1>
           <p className="mx-auto max-w-[500px] text-zinc-300 md:text-lg">
-            Premium jerseys and streetwear. Delivered anywhere in India.
+            Premium clothing, footwear, and streetwear. Delivered anywhere in India.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Link 
