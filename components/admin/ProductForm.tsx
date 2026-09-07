@@ -23,13 +23,23 @@ const AVAILABLE_TAGS = [
   "trending",      // → appears in Trending Now section
 ];
 
-const DEFAULT_SIZES: Size[] = [
+const CLOTHES_SIZES: Size[] = [
   { label: "S", available: true },
   { label: "M", available: true },
   { label: "L", available: true },
   { label: "XL", available: true },
   { label: "XXL", available: true },
 ];
+
+const FOOTWEAR_SIZES: Size[] = [
+  { label: "6", available: true },
+  { label: "7", available: true },
+  { label: "8", available: true },
+  { label: "9", available: true },
+  { label: "10", available: true },
+];
+
+const GADGET_SIZES: Size[] = [];
 
 export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,7 +56,7 @@ export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps)
   const [stockCount, setStockCount] = useState(initialData?.stockCount?.toString() || "");
   const [badge, setBadge] = useState(initialData?.badge || "");
   const [images, setImages] = useState<string[]>(initialData?.images || []);
-  const [sizes, setSizes] = useState<Size[]>(initialData?.sizes || DEFAULT_SIZES);
+  const [sizes, setSizes] = useState<Size[]>(initialData?.sizes || CLOTHES_SIZES);
   const [selectedTags, setSelectedTags] = useState<string[]>(initialData?.tags || []);
 
   const toggleTag = (tag: string) => {
@@ -185,7 +195,16 @@ export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps)
                 <p className="text-xs text-zinc-600 mb-1">What kind of item is this?</p>
                 <select 
                   value={category} 
-                  onChange={e => setCategory(e.target.value)}
+                  onChange={e => {
+                    const newCategory = e.target.value;
+                    setCategory(newCategory);
+                    if (newCategory === "clothes") setSizes(CLOTHES_SIZES);
+                    else if (newCategory === "footwears") setSizes(FOOTWEAR_SIZES);
+                    else if (newCategory === "gadgets") {
+                      setSizes(GADGET_SIZES);
+                      setPriceMode("enquire");
+                    }
+                  }}
                   className="w-full bg-zinc-950 border border-zinc-800 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-1 focus:ring-primary capitalize"
                 >
                   {CATEGORIES.map(c => (
@@ -360,25 +379,27 @@ export function ProductForm({ initialData, onSave, onCancel }: ProductFormProps)
                 </div>
               )}
 
-              <div>
-                <label className="block text-sm font-medium text-zinc-400 mb-2">Available Sizes</label>
-                <div className="flex flex-wrap gap-2">
-                  {sizes.map((size, index) => (
-                    <button
-                      key={size.label}
-                      type="button"
-                      onClick={() => toggleSize(index)}
-                      className={`w-12 h-12 flex items-center justify-center rounded border text-sm font-bold transition-colors ${
-                        size.available 
-                          ? "border-primary bg-primary/10 text-primary" 
-                          : "border-zinc-800 bg-zinc-950 text-zinc-600 hover:border-zinc-700"
-                      }`}
-                    >
-                      {size.label}
-                    </button>
-                  ))}
+              {sizes.length > 0 && (
+                <div>
+                  <label className="block text-sm font-medium text-zinc-400 mb-2">Available Sizes</label>
+                  <div className="flex flex-wrap gap-2">
+                    {sizes.map((size, index) => (
+                      <button
+                        key={size.label}
+                        type="button"
+                        onClick={() => toggleSize(index)}
+                        className={`w-12 h-12 flex items-center justify-center rounded border text-sm font-bold transition-colors ${
+                          size.available 
+                            ? "border-primary bg-primary/10 text-primary" 
+                            : "border-zinc-800 bg-zinc-950 text-zinc-600 hover:border-zinc-700"
+                        }`}
+                      >
+                        {size.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </section>
 
