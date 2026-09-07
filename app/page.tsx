@@ -57,8 +57,17 @@ export default async function Home() {
   // "trending" and "new-arrival" are TAGS — a product can have category=clothes AND tag=trending
   // It appears in /category/trending-now AND /category/clothes, but only once in All Products
   const trendingProducts = await db.getProductsByTag("trending");
+  
+  const categoryShowcases = await Promise.all(
+    categories.map(async (c) => ({
+      slug: c.slug,
+      products: await db.getProductsByCategory(c.slug),
+    }))
+  );
+
   const dynamicCategories = [
     { slug: "trending-now", products: trendingProducts },
+    ...categoryShowcases,
   ];
 
   return (
