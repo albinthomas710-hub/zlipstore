@@ -80,7 +80,7 @@ export default async function Home() {
       <section className="relative w-full h-[70vh] min-h-[500px] flex items-center justify-center bg-zinc-900 overflow-hidden">
         <div className="absolute inset-0 bg-black/60 z-10" />
         {/* Placeholder for background image/video */}
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522771930-78848d9293e8?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-50" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-50" />
         
         <div className="container relative z-20 px-4 md:px-6 text-center space-y-6">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white">
@@ -275,17 +275,6 @@ export default async function Home() {
                 ))}
               </div>
 
-              {hasMore && (
-                <div className="flex justify-center mt-12">
-                  <Link
-                    href={`/category/${catSlug}`}
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-border/30 bg-zinc-900 px-10 text-sm font-bold text-white uppercase tracking-wider hover:bg-zinc-800 transition-colors"
-                  >
-                    View All {tagName}
-                    <ArrowRight size={16} />
-                  </Link>
-                </div>
-              )}
             </div>
           </section>
         );
